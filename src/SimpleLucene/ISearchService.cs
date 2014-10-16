@@ -5,7 +5,7 @@ namespace SimpleLucene
 {
     public interface ISearchService : IDisposable
     {
-        SearchResult<Document> SearchIndex(Query query);
-        SearchResult<T> SearchIndex<T>(Query query, IResultDefinition<T> definition);
+        SearchResult<Document> SearchIndex(Query query, int maxNumberOfResults = 25000);
+        SearchResult<T> SearchIndex<T>(Query query, IResultDefinition<T> definition, int maxNumberOfResults = 25000);
     }
 }
