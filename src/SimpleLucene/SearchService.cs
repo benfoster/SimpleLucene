@@ -28,10 +28,11 @@ namespace SimpleLucene
         /// Searches an index using the provided query
         /// </summary>
         /// <param name="query">A Lucene query to use for the search</param>
+        /// <param name="maxNumberOfResults">The maximum number of results to return</param>
         /// <returns>A search result containing Lucene documents</returns>
-        public SearchResult<Document> SearchIndex(Query query)
+        public SearchResult<Document> SearchIndex(Query query, int maxNumberOfResults = 25000)
         {
-            return SearchIndex<Document>(query, new DocumentResultDefinition());
+            return SearchIndex<Document>(query, new DocumentResultDefinition(), maxNumberOfResults);
         }
 
         /// <summary>
@@ -40,12 +41,13 @@ namespace SimpleLucene
         /// <typeparam name="T">The type of result object to return</typeparam>
         /// <param name="query">A Lucene query to use for the search</param>
         /// <param name="definition">A search definition used to transform the returned Lucene documents</param>
+        /// <param name="maxNumberOfResults">The maximum number of results to return</param>
         /// <returns>A search result object containing both Lucene documents and typed objects based on the definition</returns>
-        public SearchResult<T> SearchIndex<T>(Query query, IResultDefinition<T> definition)
+        public SearchResult<T> SearchIndex<T>(Query query, IResultDefinition<T> definition, int maxNumberOfResults = 25000)
         {
             var searcher = this.GetSearcher();
             TopDocs hits = null;
-            hits = searcher.Search(query, 25000);
+            hits = searcher.Search(query, maxNumberOfResults);
             var results = hits.ScoreDocs.Select(h => searcher.Doc(h.Doc));
             return new SearchResult<T>(results, definition);
         }
