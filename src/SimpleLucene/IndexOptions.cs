@@ -12,7 +12,7 @@ namespace SimpleLucene
     {
         public IndexOptions()
         {
-            this.Analyzer = new StandardAnalyzer(Lucene.Net.Util.Version.LUCENE_30);
+            this.Analyzer = new StandardAnalyzer(Lucene.Net.Util.Version.LUCENE_29);
             this.Attributes = new Dictionary<string, object>();
         }
 

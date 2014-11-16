@@ -26,10 +26,10 @@ namespace SimpleLucene
 
         protected void AddQuery(Query query)
         {
-            AddQuery(query, Occur.MUST);
+            AddQuery(query, BooleanClause.Occur.MUST);
         }
 
-        protected void AddQuery(Query query, Occur occur)
+        protected void AddQuery(Query query, BooleanClause.Occur occur)
         {
             if (query != null)
             {
@@ -49,7 +49,7 @@ namespace SimpleLucene
                 var query = new BooleanQuery();
                 foreach (var id in list)
                 {
-                    query.Add(TermQuery(key(id), value(id)), Occur.MUST);
+                    query.Add(TermQuery(key(id), value(id)), BooleanClause.Occur.MUST);
                 }
                 return query;
             }

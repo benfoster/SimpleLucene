@@ -46,7 +46,7 @@ namespace SimpleLucene
             var searcher = this.GetSearcher();
             TopDocs hits = null;
             hits = searcher.Search(query, 25000);
-            var results = hits.ScoreDocs.Select(h => searcher.Doc(h.Doc));
+            var results = hits.scoreDocs.Select(h => searcher.Doc(h.doc));
             return new SearchResult<T>(results, definition);
         }
 
@@ -54,7 +54,7 @@ namespace SimpleLucene
         {
             if (!isDisposed && luceneSearcher != null)
             {
-                luceneSearcher.Dispose();
+                luceneSearcher.Close();
             }
             luceneSearcher = null;
         }
