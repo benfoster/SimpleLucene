@@ -75,5 +75,26 @@ namespace SimpleLucene.Tests
             Assert.AreEqual(result.Results.Count(), 1);
             Assert.AreEqual(result.Results.First().Name, "Football");
         }
+
+        [Test]
+        public void Can_filter_and_sort_index()
+        {
+            var indexSearcher = new MemoryIndexSearcher(directory, true);
+            var searchService = new SearchService(indexSearcher);
+
+            var result = searchService.SearchIndex(
+                new TermQuery(new Term("type", "product")),
+                new ProductResultDefinition(),
+                new PrefixFilter(new Term("name", "f")),
+                new Sort(new SortField("id", SortField.INT, true))
+            );
+
+            var repo = new Repository();
+
+            //Filtered:
+            Assert.AreEqual(2, result.Documents.Count());
+            //Sorted:
+            Assert.AreEqual(repo.Products.First(p => p.Id == 7).Id, result.Results.ElementAt(0).Id);
+        }
     }
 }
