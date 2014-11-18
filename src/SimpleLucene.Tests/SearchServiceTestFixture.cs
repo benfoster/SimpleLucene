@@ -96,5 +96,29 @@ namespace SimpleLucene.Tests
             //Sorted:
             Assert.AreEqual(repo.Products.First(p => p.Id == 7).Id, result.Results.ElementAt(0).Id);
         }
+
+        [Test]
+        public void Can_return_limited_number()
+        {
+            var indexSearcher = new MemoryIndexSearcher(directory, true);
+            var searchService = new SearchService(indexSearcher);
+
+            var numberResult = 1;
+
+            var result = searchService.SearchIndex(
+                new TermQuery(new Term("type", "product")),
+                new ProductResultDefinition(),
+                new PrefixFilter(new Term("name", "f")),
+                new Sort(new SortField("id", SortField.INT, true)),
+                numberResult
+            );
+
+            var repo = new Repository();
+
+            //Filtered:
+            Assert.AreEqual(numberResult, result.Documents.Count());
+            //Sorted:
+            Assert.AreEqual(repo.Products.First(p => p.Id == 7).Id, result.Results.ElementAt(0).Id);
+        }
     }
 }
