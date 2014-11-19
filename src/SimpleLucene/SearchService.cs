@@ -66,10 +66,7 @@ namespace SimpleLucene
             TopDocs hits = null;
             hits = searcher.Search(query, filter, maxNumberOfResults, sort);
             var results = hits.scoreDocs.Select(h => searcher.Doc(h.doc));
-            var hitCount = hits.totalHits < maxNumberOfResults
-                ? hits.totalHits
-                : maxNumberOfResults;
-            return new SearchResult<T>(results, definition, hitCount);
+            return new SearchResult<T>(results, definition, hits.totalHits);
         }
 
         public void Dispose()

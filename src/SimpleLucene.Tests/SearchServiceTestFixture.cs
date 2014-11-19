@@ -139,7 +139,7 @@ namespace SimpleLucene.Tests
         }
 
         [Test]
-        public void Can_return_total_hits_capped()
+        public void Can_return_total_hits_capped_results()
         {
             var indexSearcher = new MemoryIndexSearcher(directory, true);
             var searchService = new SearchService(indexSearcher);
@@ -154,7 +154,24 @@ namespace SimpleLucene.Tests
                 numberResult
             );
 
-            Assert.AreEqual(numberResult, result.TotalHits);
+            Assert.AreEqual(numberResult, result.Results.Count());
+        }
+
+        [Test]
+        public void Can_return_total_hits_capped_results_uncapped_count()
+        {
+            var indexSearcher = new MemoryIndexSearcher(directory, true);
+            var searchService = new SearchService(indexSearcher);
+            
+            var result = searchService.SearchIndex(
+                new TermQuery(new Term("type", "product")),
+                new ProductResultDefinition(),
+                new PrefixFilter(new Term("name", "f")),
+                new Sort(new SortField("id", SortField.INT, true)),
+                1
+            );
+
+            Assert.AreEqual(2, result.TotalHits);
         }
     }
 }
