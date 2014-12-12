@@ -35,6 +35,17 @@ namespace SimpleLucene
         }
 
         /// <summary>
+        /// Searches an index using the provided query
+        /// </summary>
+        /// <param name="query">A Lucene query to use for the search</param>
+        /// <param name="maxResultCount">The maximum result count.</param>
+        /// <returns>A search result containing Lucene documents</returns>
+        public SearchResult<Document> SearchIndex(Query query, int maxResultCount)
+        {
+            return SearchIndex<Document>(query, new DocumentResultDefinition(), maxResultCount);
+        }
+
+        /// <summary>
         /// Searches an index using the provided query and returns a strongly typed result object
         /// </summary>
         /// <typeparam name="T">The type of result object to return</typeparam>
@@ -43,9 +54,22 @@ namespace SimpleLucene
         /// <returns>A search result object containing both Lucene documents and typed objects based on the definition</returns>
         public SearchResult<T> SearchIndex<T>(Query query, IResultDefinition<T> definition)
         {
+            return SearchIndex(query, definition, 25000);
+        }
+
+        /// <summary>
+        /// Searches an index using the provided query and returns a strongly typed result object
+        /// </summary>
+        /// <typeparam name="T">The type of result object to return</typeparam>
+        /// <param name="query">A Lucene query to use for the search</param>
+        /// <param name="definition">A search definition used to transform the returned Lucene documents</param>
+        /// <param name="maxResultCount">The maximum result count.</param>
+        /// <returns>A search result object containing both Lucene documents and typed objects based on the definition</returns>
+        public SearchResult<T> SearchIndex<T>(Query query, IResultDefinition<T> definition, int maxResultCount)
+        {
             var searcher = this.GetSearcher();
             TopDocs hits = null;
-            hits = searcher.Search(query, 25000);
+            hits = searcher.Search(query, maxResultCount);
             var results = hits.ScoreDocs.Select(h => searcher.Doc(h.Doc));
             return new SearchResult<T>(results, definition);
         }
