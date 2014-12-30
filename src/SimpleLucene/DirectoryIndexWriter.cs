@@ -15,7 +15,7 @@ namespace SimpleLucene
         public IndexOptions IndexOptions { get; set; }
 
         public DirectoryIndexWriter(DirectoryInfo indexLocation, bool recreateIndex = false)
-            : this(indexLocation, new StandardAnalyzer(Lucene.Net.Util.Version.LUCENE_30), recreateIndex)
+            : this(indexLocation, new StandardAnalyzer(Lucene.Net.Util.Version.LUCENE_29), recreateIndex)
         { }
 
         public DirectoryIndexWriter(DirectoryInfo indexLocation, Analyzer analyzer, bool recreateIndex = false)

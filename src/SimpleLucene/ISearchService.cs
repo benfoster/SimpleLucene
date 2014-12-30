@@ -7,5 +7,6 @@ namespace SimpleLucene
     {
         SearchResult<Document> SearchIndex(Query query);
         SearchResult<T> SearchIndex<T>(Query query, IResultDefinition<T> definition);
+        SearchResult<T> SearchIndex<T>(Query query, IResultDefinition<T> definition, Filter filter, Sort sort, int maxNumberOfResults);
     }
 }

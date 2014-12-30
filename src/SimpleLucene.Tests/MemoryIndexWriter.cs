@@ -29,7 +29,7 @@ namespace SimpleLucene.Tests
             var ramDirectory = new RAMDirectory();
             this.Directory = ramDirectory;
             return new IndexWriter(ramDirectory,
-                                        new StandardAnalyzer(Lucene.Net.Util.Version.LUCENE_30),
+                                        new StandardAnalyzer(Lucene.Net.Util.Version.LUCENE_29),
                                         CreateIndex,
                                         IndexWriter.MaxFieldLength.UNLIMITED);
         }

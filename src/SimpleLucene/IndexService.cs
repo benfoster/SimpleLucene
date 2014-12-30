@@ -105,7 +105,7 @@ namespace SimpleLucene
                     luceneWriter.Optimize();
 
                 luceneWriter.Commit();
-                luceneWriter.Dispose();
+                luceneWriter.Close();
                 isDisposed = true;
             }
             luceneWriter = null;

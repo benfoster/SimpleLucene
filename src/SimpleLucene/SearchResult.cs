@@ -8,14 +8,18 @@ namespace SimpleLucene
     {
         private readonly IEnumerable<Document> documents;
         private readonly IResultDefinition<T> definition;
+        private readonly int totalHits;
 
         private IEnumerable<T> entities;
 
-        public SearchResult(IEnumerable<Document> documents, IResultDefinition<T> definition)
+        public SearchResult(IEnumerable<Document> documents, IResultDefinition<T> definition, int totalHits)
         {
             this.documents = documents;
             this.definition = definition;
+            this.totalHits = totalHits;
         }
+
+        public int TotalHits { get { return totalHits;  } }
 
         public IEnumerable<Document> Documents
         {
